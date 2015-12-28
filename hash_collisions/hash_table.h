@@ -2,22 +2,23 @@
 #define HASH_TABLE_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 #pragma pack(push, 1)
 
 typedef struct hash_element 
 {
-	unsigned __int32 next_index;
+	uint32_t next_index;
 	char data[1];
 } hash_element;
 
 typedef struct hash_table
 {
-	unsigned __int32 buckets;
-	unsigned __int32 buckets_used;
-	unsigned __int32 size;
-	unsigned __int32 max_size;
-	unsigned __int32 data_size;
+	uint32_t buckets;
+	uint32_t buckets_used;
+	uint32_t size;
+	uint32_t max_size;
+	uint32_t data_size;
 	char elements[1];
 } hash_table;
 
@@ -26,8 +27,8 @@ typedef struct hash_table
 typedef struct hash_iterator
 {
 	hash_table *table;
-	unsigned __int32 bucket;
-	unsigned __int32 element_index;
+	uint32_t bucket;
+	uint32_t element_index;
 } hash_iterator;
 
 typedef enum hash_add_result
@@ -38,11 +39,11 @@ typedef enum hash_add_result
 } hash_add_result;
 
 
-hash_table *hash_table_create(unsigned __int32 buckets, unsigned __int32 max_size, unsigned __int32 data_size);
+hash_table *hash_table_create(uint32_t buckets, uint32_t max_size, uint32_t data_size);
 
 void hash_table_free(hash_table *table);
 
-hash_add_result hash_table_add(hash_table *table, unsigned __int32 bucket, void *data);
+hash_add_result hash_table_add(hash_table *table, uint32_t bucket, void *data);
 
 void hash_table_clear(hash_table *table);
 

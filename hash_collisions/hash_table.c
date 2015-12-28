@@ -2,18 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ELEMENT_EMPTY ((unsigned __int32)-2)
-#define NO_NEXT_ELEMENT ((unsigned __int32)-1)
+#define ELEMENT_EMPTY ((uint32_t)-2)
+#define NO_NEXT_ELEMENT ((uint32_t)-1)
 
 #define ELEMENT_SIZE(data_size) ((data_size) + 4)
-#define ELEMENT_PTR(table_ptr, index, element_size) ((hash_element*)((table_ptr)->elements + (__int64)(index) * (element_size)))
+#define ELEMENT_PTR(table_ptr, index, element_size) ((hash_element*)((table_ptr)->elements + (int64_t)(index) * (element_size)))
 
 
-hash_table *hash_table_create(unsigned __int32 buckets, unsigned __int32 max_size, unsigned __int32 data_size)
+hash_table *hash_table_create(uint32_t buckets, uint32_t max_size, uint32_t data_size)
 {
-	const unsigned __int32 element_size = ELEMENT_SIZE(data_size);
+	const uint32_t element_size = ELEMENT_SIZE(data_size);
 
-	hash_table *table = malloc(5 * sizeof(unsigned __int32) + (unsigned __int64)max_size * element_size);
+	hash_table *table = malloc(5 * sizeof(uint32_t) + (uint64_t)max_size * element_size);
 	table->buckets = buckets;
 	table->data_size = data_size;
 	table->max_size = max_size;
@@ -30,13 +30,13 @@ void hash_table_free(hash_table *table)
 }
 
 
-hash_add_result hash_table_add(hash_table *table, unsigned __int32 bucket, void *data)
+hash_add_result hash_table_add(hash_table *table, uint32_t bucket, void *data)
 {
-	const unsigned __int32 data_size = table->data_size;
-	const unsigned __int32 element_size = ELEMENT_SIZE(table->data_size);
-	const unsigned __int32 next_available_index = table->size;
+	const uint32_t data_size = table->data_size;
+	const uint32_t element_size = ELEMENT_SIZE(table->data_size);
+	const uint32_t next_available_index = table->size;
 
-	unsigned __int32 next_index;
+	uint32_t next_index;
 
 	hash_element *element = ELEMENT_PTR(table, bucket, element_size);
 	next_index = element->next_index;
@@ -74,10 +74,10 @@ hash_add_result hash_table_add(hash_table *table, unsigned __int32 bucket, void 
 
 void hash_table_clear(hash_table *table)
 {
-	const unsigned __int32 element_size = ELEMENT_SIZE(table->data_size);
-	const unsigned __int32 buckets = table->buckets;
+	const uint32_t element_size = ELEMENT_SIZE(table->data_size);
+	const uint32_t buckets = table->buckets;
 
-	unsigned __int32 i;
+	uint32_t i;
 
 	table->buckets_used = 0;
 	table->size = buckets;
@@ -89,7 +89,7 @@ void hash_table_clear(hash_table *table)
 
 hash_iterator hash_table_iterator(hash_table *table)
 {
-	const unsigned __int32 element_size = ELEMENT_SIZE(table->data_size);
+	const uint32_t element_size = ELEMENT_SIZE(table->data_size);
 
 	hash_iterator it = { table, 0, 0 };
 	hash_element *element = ELEMENT_PTR(table, 0, element_size);
@@ -108,7 +108,7 @@ void *hash_iterator_get(hash_iterator it)
 	if (it.bucket >= table->buckets)
 		return NULL;
 
-	const unsigned __int32 element_size = ELEMENT_SIZE(table->data_size);
+	const uint32_t element_size = ELEMENT_SIZE(table->data_size);
 	hash_element *element = ELEMENT_PTR(table, it.element_index, element_size);
 
 	if (element->next_index == ELEMENT_EMPTY)
@@ -121,12 +121,12 @@ void *hash_iterator_get(hash_iterator it)
 hash_iterator hash_iterator_next(hash_iterator it)
 {
 	hash_table *table = it.table;
-	const unsigned __int32 buckets = table->buckets;
+	const uint32_t buckets = table->buckets;
 
 	if (it.bucket >= buckets)
 		return it;
 
-	const unsigned __int32 element_size = ELEMENT_SIZE(table->data_size);
+	const uint32_t element_size = ELEMENT_SIZE(table->data_size);
 	hash_element *element = ELEMENT_PTR(table, it.element_index, element_size);
 
 	if (element->next_index != NO_NEXT_ELEMENT && element->next_index != ELEMENT_EMPTY)
