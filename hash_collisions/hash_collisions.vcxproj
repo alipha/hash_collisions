@@ -183,9 +183,6 @@
     <ClInclude Include="hash_table.h" />
     <ClInclude Include="sha512.h" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="sha512.asm" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

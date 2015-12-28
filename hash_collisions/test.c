@@ -17,8 +17,7 @@ int main()
 
 	/**/
 	char message[] = "hello";
-	//sha512_hash((uint8_t*)message, 5, (uint64_t*)hash);
-	crypto_hash_sha512((uint64_t*)hash, message, 5);
+	sha512_hash(message, 5, hash);
 
 	for (int x = 0; x < 64; x++)
 		printf("%02x", hash[x]);
@@ -28,8 +27,7 @@ int main()
 	/**/
 
 	for (uint32_t i = 0; i < (1 << 24); i++)
-		crypto_hash_sha512(hash, (uint8_t*)&i, sizeof(uint32_t));
-		//sha512_hash((uint8_t*)&i, sizeof(uint32_t), hash);
+		sha512_hash((uint8_t*)&i, sizeof(uint32_t), hash);
 
 	clock_t end = clock();
 	printf("%f\n", (double)(end - start) / CLOCKS_PER_SEC);
